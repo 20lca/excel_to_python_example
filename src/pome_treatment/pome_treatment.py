@@ -105,7 +105,6 @@ def POMETreatmentH2S(ProcessedFFB,H2SNonMethane):
 
     return nh3
 
-
 def SharePOMETreatedBiogasCapture(SharePOMETreatedAnaerobicPond):
 
     # E27
@@ -113,11 +112,11 @@ def SharePOMETreatedBiogasCapture(SharePOMETreatedAnaerobicPond):
 
     return share
 
-def POMEFromPressHydroCycloneSteriliser(TotalProcessedFFB,
+def POMEFromPressHydroCycloneSteriliser(ProcessedFFB,
                                         POMEClarificationSteriliserCondensate):
 
     # E29
-    if TotalProcessedFFB > 0:
+    if ProcessedFFB > 0:
         result = POMEClarificationSteriliserCondensate
     else:
         result = 0
@@ -132,13 +131,13 @@ def POMEEFBPress():
     # cell 174, parameters sheet
     return 0.140
 
-def POMEFromEFBPress(TotalProcessedFFB:float,POMEEFBPress:float,
+def POMEFromEFBPress(ProcessedFFB:float,POMEEFBPress:float,
                      POMEEFBPressUsed:bool)->float:
     """_summary_
 
     Parameters
     ----------
-    TotalProcessedFFB : _type_
+    ProcessedFFB : _type_
         _description_
     POMEEFBPress : _type_
         t POME / t FFB (fresh weight)
@@ -154,20 +153,20 @@ def POMEFromEFBPress(TotalProcessedFFB:float,POMEEFBPress:float,
     # NOTE: this way is not very efficient but I reproduce the excel where the
     # formula is accross different rows
 
-    if (TotalProcessedFFB > 0) and POMEEFBPressUsed:
+    if (ProcessedFFB > 0) and POMEEFBPressUsed:
         result = POMEEFBPress
     else:
         result = 0
 
     return result
 
-def POMEFromDecanter(TotalProcessedFFB:float,POMEDecanterUsed:bool,
+def POMEFromDecanter(ProcessedFFB:float,POMEDecanterUsed:bool,
                      POMEDecanterSludge:float)->float:
     """_summary_
 
     Parameters
     ----------
-    TotalProcessedFFB : float
+    ProcessedFFB : float
         _description_
     POMEDecanterUsed : bool
         it seems to be if a decanter is used or not. D17 in Oil milss consolidate
@@ -180,7 +179,7 @@ def POMEFromDecanter(TotalProcessedFFB:float,POMEDecanterUsed:bool,
         _description_
     """
 
-    if (TotalProcessedFFB > 0) and POMEDecanterUsed:
+    if (ProcessedFFB > 0) and POMEDecanterUsed:
         result = POMEDecanterSludge
     else:
         result = 0
@@ -257,7 +256,7 @@ def POMECODAfterBiogasDigesterTreatment(POMECODBeforeTreatment,
 
 def PondSystemCODReduction(POMECODAfterPondTreatment,POMECODBeforeTreatment,
                            SharePOMETreatedBiogasCapture,):
-    
+    # 
     result = ((POMECODBeforeTreatment - POMECODAfterPondTreatment) 
               * (1-SharePOMETreatedBiogasCapture))
     
