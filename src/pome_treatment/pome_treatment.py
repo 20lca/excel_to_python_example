@@ -256,7 +256,7 @@ def POMECODAfterBiogasDigesterTreatment(POMECODBeforeTreatment,
 
 def PondSystemCODReduction(POMECODAfterPondTreatment,POMECODBeforeTreatment,
                            SharePOMETreatedBiogasCapture,):
-    # 
+    # 52
     result = ((POMECODBeforeTreatment - POMECODAfterPondTreatment) 
               * (1-SharePOMETreatedBiogasCapture))
     
@@ -273,23 +273,39 @@ def CH4PondSystem(PondSystemCODReduction,B0,MCFAnaerobicPond):
 
     return ch4
 
-def CH4FromPOMEAppliedToLand(POMEAppliedToLandCODReduction,B0,
-                             MFCPOMEAppliedToLand):
+def POMEDischargedToRiverSeaLake(POMEAppliedToLand):
 
-    ch4 = POMEAppliedToLandCODReduction * B0 * MFCPOMEAppliedToLand
+    # this is actually 0-1 basis, it's a fraction
+    return 1- POMEAppliedToLand
+
+def CH4FromPOMEAppliedToLand(POMEAppliedToLandCODReduction,B0,
+                             MFCPOMEAppliedToLand,POMEAppliedToLand):
+    # 55
+    ch4 = (POMEAppliedToLandCODReduction * B0 * MFCPOMEAppliedToLand * 
+           POMEAppliedToLand)
 
     return ch4
 
 def CH4FromPOMEDischargedRiver(POMEAppliedToLandCODReduction,B0,
-                               MFCPOMEDischargedRiver):
-
-    ch4 = POMEAppliedToLandCODReduction * B0 * MFCPOMEDischargedRiver
+                               MFCPOMEDischargedRiver,
+                               POMEDischargedToRiverSeaLake):
+    # 56
+    ch4 = (POMEAppliedToLandCODReduction * B0 * MFCPOMEDischargedRiver
+           * POMEDischargedToRiverSeaLake)
 
     return ch4
 
-## biogas digester system
+## biogas digester system 57
 
+def DigesterCODReduction(POMECODBeforeTreatment,
+                         POMECODAfterBiogasDigesterTreatment,
+                         SharePOMETreatedBiogasCapture):
 
+    # E58
+    cod = ((POMECODBeforeTreatment - POMECODAfterBiogasDigesterTreatment) 
+           * SharePOMETreatedBiogasCapture)
+
+    return cod
 
 
 
